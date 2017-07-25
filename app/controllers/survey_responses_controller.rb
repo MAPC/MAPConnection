@@ -1,5 +1,10 @@
+require 'twilio-ruby'
+
 class SurveyResponsesController < ApplicationController
+  include Webhookable
   before_action :set_survey_response, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token
+  after_filter :set_header
 
   # GET /survey_responses
   # GET /survey_responses.json
@@ -58,6 +63,30 @@ class SurveyResponsesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to survey_responses_url, notice: 'Survey response was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def sms
+    participant = SurveyResponse.find_by_from(params["From"])
+    if participant.blank?
+      SurveyResponse.create(from: params["From"])
+      response = Twilio::TwiML::Response.new do |r|
+        r.sms("What do you love about Duxbury?")
+      end
+    elsif participant.try(:question1)
+      participant.question2 = params["Body"]
+      participant.save!
+      response = Twilio::TwiML::Response.new do |r|
+        r.sms("Thank you for your participation!")
+      end
+      render_twiml response
+    elsif participant.try(:from)
+      participant.question1 = params["Body"]
+      participant.save!
+      response = Twilio::TwiML::Response.new do |r|
+        r.sms("What do you think could be improved?")
+      end
+      render_twiml response
     end
   end
 
