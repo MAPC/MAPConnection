@@ -75,6 +75,7 @@ class SurveyResponsesController < ApplicationController
           message.body("What do you love about Duxbury?")
         end
       end
+      render_twiml response
     elsif participant.try(:question1)
       participant.question2 = params["Body"]
       participant.save!
