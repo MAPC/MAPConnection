@@ -5,11 +5,14 @@
 <table>
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <td>From</td>
+      <td>What do you like about Duxbury?</td>
+      <td>What can be improved?</td>
     </tr>
   </thead>
 
   <tbody>
+  <tr>
     <% @survey_responses.each do |survey_response| %>
       <tr>
         <td><%= survey_response.from %></td>
