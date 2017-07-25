@@ -4,7 +4,6 @@ class SurveyResponsesController < ApplicationController
   include Webhookable
   before_action :set_survey_response, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token
-  after_filter :set_header
 
   # GET /survey_responses
   # GET /survey_responses.json
