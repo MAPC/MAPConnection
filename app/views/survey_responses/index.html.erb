@@ -12,8 +12,9 @@
   <tbody>
     <% @survey_responses.each do |survey_response| %>
       <tr>
-        <td><%= link_to 'Show', survey_response %></td>
-        <td><%= link_to 'Edit', edit_survey_response_path(survey_response) %></td>
+        <td><%= survey_response.from %></td>
+        <td><%= survey_response.question1 %></td>
+        <td><%= survey_response.question2 %></td>
         <td><%= link_to 'Destroy', survey_response, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
