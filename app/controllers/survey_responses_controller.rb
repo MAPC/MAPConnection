@@ -71,20 +71,20 @@ class SurveyResponsesController < ApplicationController
     if participant.blank?
       SurveyResponse.create(from: params["From"])
       response = Twilio::TwiML::Response.new do |r|
-        r.sms("What do you love about Duxbury?")
+        r.message(body: "What do you love about Duxbury?")
       end
     elsif participant.try(:question1)
       participant.question2 = params["Body"]
       participant.save!
       response = Twilio::TwiML::Response.new do |r|
-        r.sms("Thank you for your participation!")
+        r.message(body: "Thank you for your participation!")
       end
       render_twiml response
     elsif participant.try(:from)
       participant.question1 = params["Body"]
       participant.save!
       response = Twilio::TwiML::Response.new do |r|
-        r.sms("What do you think could be improved?")
+        r.message(body: "What do you think could be improved?")
       end
       render_twiml response
     end
