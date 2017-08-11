@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170725013116) do
+ActiveRecord::Schema.define(version: 20170811180345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20170725013116) do
     t.string   "from"
     t.string   "question1"
     t.string   "question2"
+    t.boolean  "optout"
   end
 
 end

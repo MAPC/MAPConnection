@@ -75,12 +75,21 @@ class SurveyResponsesController < ApplicationController
         end
       end
       render_twiml response
+    elsif params['Body'].upcase == "STOP"
+      participant.optout = true
+      participant.save!
+      response = Twilio::TwiML::Response.new do |r|
+        r.message do |message|
+          message.body("You have been opted out of future messages. Thank you for your participation.")
+        end
+      end
+      render_twiml response
     elsif participant.try(:question1)
       participant.question2 = params["Body"]
       participant.save!
       response = Twilio::TwiML::Response.new do |r|
         r.message do |message|
-          message.body("Thank you for your participation")
+          message.body("Thank you for participating. Learn more about the Duxbury Master Planning process at envisionduxbury.mapc.org. To opt-out of future messages reply: STOP")
         end
       end
       render_twiml response
